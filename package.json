@@ -1,0 +1,20 @@
+{
+  "name": "node_token",
+  "version": "1.0.0",
+  "description": "test para login con token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "walter cordero",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jwt-simple": "^0.4.1",
+    "moment": "^2.11.2",
+    "mysql": "^2.10.2",
+    "restify": "^4.0.4",
+    "sequelize": "^3.19.3",
+    "sequelize-cli": "^2.3.1"
+  }
+}
