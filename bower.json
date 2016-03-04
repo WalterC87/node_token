@@ -1,0 +1,25 @@
+{
+  "name": "node_token",
+  "description": "test para login con token",
+  "main": "index.js",
+  "authors": [
+    "walter cordero"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "satellizer": "^0.14.0"
+  }
+}
