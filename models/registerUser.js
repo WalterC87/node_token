@@ -25,12 +25,12 @@ module.exports = function(sequelize, DataTypes){
 			setPassword: function(password){
 				var _salt = crypto.randomBytes(16).toString('hex');
 				var _hash = crypto.pbkdf2Sync(password, _salt, 1000, 64).toString('hex');
-				this.setDataValue('salt', _salt);
-				this.setDataValue('hash', _hash);
+				setDataValue('salt', _salt);
+				setDataValue('hash', _hash);
 			},
 			validPassword: function(password){
-				var userHash = this.getDataValue('hash');
-				var userSalt = this.getDataValue('salt');
+				var userHash = getDataValue('hash');
+				var userSalt = getDataValue('salt');
 				var _hash = crypto.pbkdf2Sync(password, userSalt, 1000, 64).toString('hex');
 
 				return userHash == _hash;
