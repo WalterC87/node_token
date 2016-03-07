@@ -2,21 +2,18 @@ require('dotenv').load();
 var restify = require('restify');
 var fs = require('fs');
 var passport = require('passport');
-//var middleware = require('./middleware');
+var jwt = require('restify-jwt');
+var auth = jwt({
+	secret: process.env.JWT_SECRET,
+	requestProperty: 'payload'
+})
 var models = require('./models');
 var controllers = {},
 	controllers_path = process.cwd() + '/app/controllers';
-var midds = {},
-	middlewares_path = process.cwd() + '/middleware';
 
 fs.readdirSync(controllers_path).forEach(function (file){
 	if(file.indexOf('.js') != -1){
 		controllers[file.split('.')[0]] = require(controllers_path + '/' + file)
-	}
-})
-fs.readdirSync(middlewares_path).forEach(function (file){
-	if(file.indexOf('.js') != -1){
-		midds[file.split('.')[0]] = require(middlewares_path + '/' + file);
 	}
 })
 require('./config/passport');
@@ -40,10 +37,18 @@ server.use(
 )
 server.use(restify.urlEncodedBodyParser({ mapParams : false }));
 server.use(passport.initialize());
+server.use(function (err, req, res, next){
+	if(err.name === 'UnauthorizedError'){
+		res.status(401);
+		res.json({
+			"message": err.name + ": " + err.message
+		})
+	}
+})
 
 server.post('/auth/signup', controllers.user.emailSignUp);
 server.post('/auth/login', controllers.user.emailLogin);
-server.get('/private', midds.middleware.ensureAuthenticated , controllers.user.authPrivate);
+server.get('/private', auth , controllers.user.authPrivate);
 
 models.sequelize.sync();
 
