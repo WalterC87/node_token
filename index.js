@@ -38,7 +38,7 @@ server.use(
 		return next();
 	}
 )
-server.use(restify.bodyParser());
+server.use(restify.urlEncodedBodyParser({ mapParams : false }));
 server.use(passport.initialize());
 
 server.post('/auth/signup', controllers.user.emailSignUp);
