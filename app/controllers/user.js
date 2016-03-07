@@ -48,40 +48,11 @@ exports.emailLogin = function(req, res, next){
 		}
 		if(user){
 			_token = service.createToken(user);
-			sendJSONresponse(res, 200, {"data": user, "token": _token});
+			sendJSONresponse(res, 200, {"token": _token});
 		}else{
 			sendJSONresponse(res, 401, info);
 		}
 	})(req, res);
-
-	/*models.registerUser.findOne({
-		where: {
-			loginUser: req.body.loginUser.toLowerCase()
-		}
-	}).then(function (user){
-		if(!user){
-			res.status(500);
-			res.json({
-				type: false,
-				data: "error: " + user
-			});
-		}else{
-			if(user.validPassword(req.body.password)){
-				res.status(200);
-				res.json({
-					type: true,
-					data: user
-				});
-				console.log(service.createToken(user));
-			}else{
-				res.json({
-					type: false,
-					data: "La contraseña no coincide para el usuario ingresado"
-				})
-			}
-			// res.send({token: service.createToken(user)});
-		}
-	})*/
 }
 
 exports.authPrivate = function(req, res, next){
