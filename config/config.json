@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "demo_token",
-    "password": "demotoken",
+    "username": "probns_mvp",
+    "password": "probnsmvp",
     "database": "demo_token",
     "host": "127.0.0.1",
     "dialect": "mysql"
@@ -19,5 +19,8 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "TOKEN_SECRET": {
+    "secret": "MIICATCCAWoCCQDoLzF89AVR9jANBgkqhkiG9w0BAQUFADBFMQswCQYDVQQGEwJB"
   }
 }
