@@ -1,6 +1,7 @@
 require('dotenv').load();
 var restify = require('restify');
 var fs = require('fs');
+var passport = require('passport');
 //var middleware = require('./middleware');
 var models = require('./models');
 var controllers = {},
@@ -18,9 +19,11 @@ fs.readdirSync(middlewares_path).forEach(function (file){
 		midds[file.split('.')[0]] = require(middlewares_path + '/' + file);
 	}
 })
+require('./config/passport');
 
 var server = restify.createServer();
 server.use(restify.fullResponse());
+
 /*restify.CORS.ALLOW_HEADERS.push('accept');
 restify.CORS.ALLOW_HEADERS.push('sid');
 restify.CORS.ALLOW_HEADERS.push('lang');
@@ -36,6 +39,7 @@ server.use(
 	}
 )
 server.use(restify.bodyParser());
+server.use(passport.initialize());
 
 server.post('/auth/signup', controllers.user.emailSignUp);
 server.post('/auth/login', controllers.user.emailLogin);
