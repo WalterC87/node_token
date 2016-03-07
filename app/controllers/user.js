@@ -46,7 +46,6 @@ exports.emailLogin = function(req, res, next){
 			sendJSONresponse(res,404,err);
 			return;
 		}
-
 		if(user){
 			_token = service.createToken(user);
 			sendJSONresponse(res, 200, {"data": user, "token": _token});
