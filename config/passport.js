@@ -2,6 +2,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var models = require('../models');
 
+function validPassword(password, user){
+	var hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64).toString('hex');
+	return user.hash == hash;
+}
+
 passport.use(new LocalStrategy({
 		usernameField: 'loginUser'
 	},
@@ -15,7 +20,7 @@ passport.use(new LocalStrategy({
 					message: 'El usuario proporcionado no existe'	
 				})
 			}
-			if(!user.validPassword(password)){
+			if(!validPassword(password)){
 				return done(null, false, {
 					message: 'Contraseña Incorrecta'
 				})

@@ -15,34 +15,24 @@ exports.emailSignUp = function(req, res, next){
 		return;
 	}
 	models.registerUser.create({
-		loginUser: req.body.loginUser
-		// salt: crypto.randomBytes(16).toString('hex'),		
+		loginUser: req.body.loginUser,
+		salt: crypto.randomBytes(16).toString('hex')
 		// token: Math.random().toString(32).substring(2)
 	}).then(function (user){
 		if(!user){
 			sendJSONresponse(res, 500, {"type": false, "message": "error: " + user});
 		}else{
 			var _token = service.createToken(user);
-			user.setPassword(req.body.password);
-			sendJSONresponse(res, 200, {"token": _token});
-			// user.update({
-			// 	hash: crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 64).toString('hex')
-			// }).then(function(){
-			// 	res.status(200);
-			// 	res.json({
-			// 		type: true,
-			// 		data: user
-			// 	});
-			// })
-			console.log(service.createToken(user));
+			//user.setPassword(req.body.password);
+			user.update({
+			 	hash: crypto.pbkdf2Sync(req.body.password, user.salt, 1000, 64).toString('hex')
+			}).then(function(){
+				sendJSONresponse(res, 200, {"token": _token});
+			})
+			//console.log(service.createToken(user));
 			//res.send({token: service.createToken(user)});			
 		}
 	});
-}
-
-function validatePasswordUser(password, user){
-	var hash = crypto.pbkdf2Sync(password, user.salt, 1000, 64).toString('hex');
-	return user.hash == hash;
 }
 
 exports.emailLogin = function(req, res, next){

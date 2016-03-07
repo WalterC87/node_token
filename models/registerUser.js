@@ -14,14 +14,9 @@ module.exports = function(sequelize, DataTypes){
 		hash: {
 			type: DataTypes.STRING,
 			allowNull: true
-		},
-		token: {
-			type: DataTypes.STRING,
-			allowNull: true,
-			defaultValue: null
 		}
 	},{
-		instanceMethods: {
+		/*instanceMethods: {
 			setPassword: function(password){
 				var _salt = crypto.randomBytes(16).toString('hex');
 				var _hash = crypto.pbkdf2Sync(password, _salt, 1000, 64).toString('hex');
@@ -35,7 +30,7 @@ module.exports = function(sequelize, DataTypes){
 
 				return userHash == _hash;
 			}
-		},
+		},*/
 		freezeTableName: true,
 		tableName: 'registeruser'
 	})
