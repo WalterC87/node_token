@@ -8,9 +8,18 @@ var fs = require('fs');
 var passport = require('passport');
 var models = require('./models');
 
+var router = express.Router();
+var jwt = require('express-jwt');
+var auth = jwt({
+	secret: process.env.JWT_SECRET,
+	userProperty: 'payload'
+})
+
+var controllers = require('../../app/controllers/user');
+
 require('./config/passport');
 
-var routesApi = require('./api/routes/index');
+// var routesApi = require('./api/routes/index');
 
 var app = express();
 
@@ -24,6 +33,10 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+router.post('/auth/signup', controllers.emailSignUp);
+router.post('/auth/login', controllers.emailLogin);
+router.get('/private', auth , controllers.authPrivate);
 
 app.use(passport.initialize());
 
